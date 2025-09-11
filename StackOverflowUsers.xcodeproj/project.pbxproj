@@ -58,6 +58,11 @@
 			path = StackOverflowUsersUITests;
 			sourceTree = "<group>";
 		};
+		582CF8542E71DD790016C5BC /* Modules */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Modules;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +93,7 @@
 		582CF7DC2E71D6B20016C5BC = {
 			isa = PBXGroup;
 			children = (
+				582CF8542E71DD790016C5BC /* Modules */,
 				582CF7E72E71D6B20016C5BC /* StackOverflowUsers */,
 				582CF7FE2E71D6B60016C5BC /* StackOverflowUsersTests */,
 				582CF8082E71D6B60016C5BC /* StackOverflowUsersUITests */,
@@ -122,6 +128,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				582CF7E72E71D6B20016C5BC /* StackOverflowUsers */,
+				582CF8542E71DD790016C5BC /* Modules */,
 			);
 			name = StackOverflowUsers;
 			packageProductDependencies = (
@@ -208,6 +215,9 @@
 			);
 			mainGroup = 582CF7DC2E71D6B20016C5BC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				582CF8632E7382360016C5BC /* XCLocalSwiftPackageReference "Modules/NetworkClient" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 582CF7E62E71D6B20016C5BC /* Products */;
 			projectDirPath = "";
@@ -597,6 +607,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		582CF8632E7382360016C5BC /* XCLocalSwiftPackageReference "Modules/NetworkClient" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/NetworkClient;
+		};
+/* End XCLocalSwiftPackageReference section */
 	};
 	rootObject = 582CF7DD2E71D6B20016C5BC /* Project object */;
 }
