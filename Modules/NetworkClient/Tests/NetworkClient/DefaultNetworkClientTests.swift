@@ -1,10 +1,3 @@
-//
-//  DefaultNetworkClientTests.swift
-//  NetworkClient
-//
-//  Created by Andy Kayley on 10/09/2025.
-//
-
 import Foundation
 import Testing
 

@@ -18,6 +18,13 @@
   },
   "testTargets" : [
     {
+      "target" : {
+        "containerPath" : "container:Modules\/StackOverflowService",
+        "identifier" : "StackOverflowServiceTests",
+        "name" : "StackOverflowServiceTests"
+      }
+    },
+    {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:StackOverflowUsers.xcodeproj",
