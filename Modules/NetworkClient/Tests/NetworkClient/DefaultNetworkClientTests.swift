@@ -15,7 +15,10 @@ final class DefaultNetworkClientTests {
         let config = URLSessionConfiguration.default
         config.protocolClasses = [MockURLProtocol.self]
         let session = URLSession(configuration: config)
-        networkClient = DefaultNetworkClient(session: session)
+        networkClient = DefaultNetworkClient(
+            session: session,
+            keyDecodingStrategy: .convertFromSnakeCase
+        )
     }
 
     deinit {
@@ -26,6 +29,7 @@ final class DefaultNetworkClientTests {
         let id: Int
         let franchise: String
         let name: String
+        let totalAppearances: Int
     }
 
     @Test("When requesting data, it should be fetched successfully")
@@ -38,7 +42,8 @@ final class DefaultNetworkClientTests {
             { 
                 "id": 123,
                 "franchise": "Star Wars",
-                "name": "Obi-Wan Kenobi"
+                "name": "Obi-Wan Kenobi",
+                "total_appearances": 22
             }
             """
 
@@ -59,6 +64,7 @@ final class DefaultNetworkClientTests {
         #expect(character.id == 123)
         #expect(character.franchise == "Star Wars")
         #expect(character.name == "Obi-Wan Kenobi")
+        #expect(character.totalAppearances == 22)
     }
 
     @Test("When invalid response returned, NetworkError.invalidResponse should be thrown")

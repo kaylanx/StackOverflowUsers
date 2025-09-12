@@ -2,9 +2,17 @@ import Foundation
 
 final class DefaultNetworkClient: NetworkClient {
     private let session: URLSession
+    private let keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy
+    private let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy
 
-    init(session: URLSession = .shared) {
+    init(
+        session: URLSession = .shared,
+        keyDecodingStrategy: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys,
+        dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .deferredToDate
+    ) {
         self.session = session
+        self.keyDecodingStrategy = keyDecodingStrategy
+        self.dateDecodingStrategy = dateDecodingStrategy
     }
 
     func fetch<T: Decodable>(_ request: URLRequest, as type: T.Type) async throws -> T {
@@ -19,7 +27,8 @@ final class DefaultNetworkClient: NetworkClient {
 
         do {
             let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            decoder.keyDecodingStrategy = keyDecodingStrategy
+            decoder.dateDecodingStrategy = dateDecodingStrategy
             return try decoder.decode(T.self, from: data)
         } catch {
             throw NetworkError.decodingFailed(error)
