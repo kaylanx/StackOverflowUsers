@@ -2,8 +2,6 @@ import Foundation
 
 // Optionality added according to the documentation:
 // https://api.stackexchange.com/docs/types/user
-import Foundation
-
 public struct User: Decodable, Sendable, Equatable {
 
     public struct BadgeCounts: Decodable, Sendable, Equatable {

@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-import NetworkClient
+import Networking
 
 @testable import StackOverflowService
 

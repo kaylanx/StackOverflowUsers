@@ -1,5 +1,5 @@
 import Foundation
-import NetworkClient
+import Networking
 
 final class SpyNetworkClient: NetworkClient {
 

@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import NetworkClient
+@testable import Networking
 
 // Tests are run sequentially to ensure that modifications to
 // protocolClasses using MockURLProtocol do not leak into or

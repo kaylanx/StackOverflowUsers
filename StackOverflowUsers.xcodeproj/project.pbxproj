@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5865C29C2E74E9BF00A94913 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 5865C29B2E74E9BF00A94913 /* Networking */; };
+		5865C29E2E74E9BF00A94913 /* StackOverflowService in Frameworks */ = {isa = PBXBuildFile; productRef = 5865C29D2E74E9BF00A94913 /* StackOverflowService */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		582CF7FC2E71D6B60016C5BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -70,6 +75,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5865C29C2E74E9BF00A94913 /* Networking in Frameworks */,
+				5865C29E2E74E9BF00A94913 /* StackOverflowService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +104,7 @@
 				582CF7E72E71D6B20016C5BC /* StackOverflowUsers */,
 				582CF7FE2E71D6B60016C5BC /* StackOverflowUsersTests */,
 				582CF8082E71D6B60016C5BC /* StackOverflowUsersUITests */,
+				5865C29A2E74E9BF00A94913 /* Frameworks */,
 				582CF7E62E71D6B20016C5BC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,6 +117,13 @@
 				582CF8052E71D6B60016C5BC /* StackOverflowUsersUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5865C29A2E74E9BF00A94913 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +147,8 @@
 			);
 			name = StackOverflowUsers;
 			packageProductDependencies = (
+				5865C29B2E74E9BF00A94913 /* Networking */,
+				5865C29D2E74E9BF00A94913 /* StackOverflowService */,
 			);
 			productName = StackOverflowUsers;
 			productReference = 582CF7E52E71D6B20016C5BC /* StackOverflowUsers.app */;
@@ -216,7 +233,8 @@
 			mainGroup = 582CF7DC2E71D6B20016C5BC;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				582CF8632E7382360016C5BC /* XCLocalSwiftPackageReference "Modules/NetworkClient" */,
+				5865C2962E74E6D800A94913 /* XCLocalSwiftPackageReference "Modules/StackOverflowService" */,
+				5865C2992E74E9A700A94913 /* XCLocalSwiftPackageReference "Modules/Networking" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 582CF7E62E71D6B20016C5BC /* Products */;
@@ -609,11 +627,26 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		582CF8632E7382360016C5BC /* XCLocalSwiftPackageReference "Modules/NetworkClient" */ = {
+		5865C2962E74E6D800A94913 /* XCLocalSwiftPackageReference "Modules/StackOverflowService" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = Modules/NetworkClient;
+			relativePath = Modules/StackOverflowService;
+		};
+		5865C2992E74E9A700A94913 /* XCLocalSwiftPackageReference "Modules/Networking" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Modules/Networking;
 		};
 /* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5865C29B2E74E9BF00A94913 /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Networking;
+		};
+		5865C29D2E74E9BF00A94913 /* StackOverflowService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = StackOverflowService;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 582CF7DD2E71D6B20016C5BC /* Project object */;
 }

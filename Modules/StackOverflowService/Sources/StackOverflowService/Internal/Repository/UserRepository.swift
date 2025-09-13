@@ -1,5 +1,5 @@
 import Foundation
-import NetworkClient
+import Networking
 
 protocol UserRepository {
     func fetchUsers() async throws -> [User]

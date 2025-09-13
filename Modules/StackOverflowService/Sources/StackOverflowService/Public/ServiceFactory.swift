@@ -1,5 +1,5 @@
 import Foundation
-import NetworkClient
+import Networking
 
 public enum ServiceFactory {
     public static func userService(
