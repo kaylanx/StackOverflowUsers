@@ -22,14 +22,10 @@ final class UsersViewController: UIViewController {
         return indicator
     }()
 
-    private let errorView: UILabel = {
-        let errorLabel = UILabel()
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
-        errorLabel.textAlignment = .center
-        errorLabel.textColor = .secondaryLabel
-        errorLabel.numberOfLines = 0
-        errorLabel.isHidden = true
-        return errorLabel
+    private let errorView = {
+        let emptyStateView = EmptyStateView(frame: .zero)
+        emptyStateView.translatesAutoresizingMaskIntoConstraints = false
+        return emptyStateView
     }()
 
     private let viewModel: UsersViewModel
@@ -62,10 +58,10 @@ final class UsersViewController: UIViewController {
         view.addSubview(errorView)
 
         NSLayoutConstraint.activate([
-            errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            errorView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
-            errorView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+            errorView.topAnchor.constraint(equalTo: view.topAnchor),
+            errorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            errorView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
 
@@ -147,7 +143,13 @@ final class UsersViewController: UIViewController {
         buttonTitle: String
     ) {
         showLoadingSpinner(isLoading: false)
-        errorView.text = message
+        errorView.configure(
+            title: title,
+            message: message,
+            buttonTitle: buttonTitle
+        ) { [weak self] in
+            self?.refreshData()
+        }
         errorView.isHidden = false
     }
 

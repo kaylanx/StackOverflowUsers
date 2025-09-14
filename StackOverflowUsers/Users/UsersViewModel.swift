@@ -7,7 +7,7 @@ final class UsersViewModel {
         // These would come from Localizable.strings...
         static let errorMessageTitle = "Something went wrong"
         static let errorFetchingUsers = "There was a problem fetching the users. Please try again."
-        static let errorMessageButtonTitle = "OK"
+        static let errorMessageButtonTitle = "Retry"
         static let screenTitle = "Top 20 StackOverflow Users"
     }
 

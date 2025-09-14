@@ -34,7 +34,7 @@ final class UserTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         button.setTitle("Follow", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
+        button.configuration = .prominentGlass()
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
