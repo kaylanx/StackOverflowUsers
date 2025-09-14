@@ -1,5 +1,4 @@
 import Foundation
-@testable import StackOverflowService
 
 extension User {
     static let mock = User(
@@ -22,7 +21,7 @@ extension User {
         location: "location",
         websiteUrl: "websiteUrl",
         link: "link",
-        profileImage: "profileImage",
+        profileImage: "https://example.com/image.png",
         displayName: "displayName",
         timedPenaltyDate: nil,
         age: nil

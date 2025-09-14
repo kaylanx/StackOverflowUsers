@@ -30,6 +30,7 @@ final class AppCoordinator {
         let usersViewModel = UsersViewModel(userService: userService)
         let viewController = UsersViewController(viewModel: usersViewModel)
         let navigation = UINavigationController(rootViewController: viewController)
+        navigation.navigationBar.prefersLargeTitles = true
         window.rootViewController = navigation
         window.makeKeyAndVisible()
     }

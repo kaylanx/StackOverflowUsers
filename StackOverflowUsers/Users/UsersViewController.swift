@@ -1,48 +1,4 @@
 import UIKit
-import StackOverflowService
-
-final class UsersViewModel {
-
-    enum Strings {
-        // These would come from Localizable.strings...
-        static let errorMessageTitle = "Something went wrong"
-        static let errorFetchingUsers = "There was a problem fetching the users. Please try again."
-        static let errorMessageButtonTitle = "OK"
-    }
-
-    var users: [User] = []
-
-    var onUsersFetched: (() -> Void)?
-    var onError: ((_ title: String, _ errorMessage: String, _ buttonTitle: String) -> Void)?
-
-    private let userService: UserService
-    var loadDataTask: Task<Void, Never>?
-
-    init(userService: UserService) {
-        self.userService = userService
-    }
-
-    func viewDidLoad() {
-        loadData()
-    }
-
-    func loadData() {
-        loadDataTask = Task {
-            defer { loadDataTask = nil }
-            do {
-                users = try await userService.fetchUsers()
-                onUsersFetched?()
-            } catch {
-                print(" >>> \(error)")
-                onError?(
-                    Strings.errorMessageTitle,
-                    Strings.errorFetchingUsers,
-                    Strings.errorMessageButtonTitle
-                )
-            }
-        }
-    }
-}
 
 final class UsersViewController: UIViewController {
 
@@ -53,7 +9,7 @@ final class UsersViewController: UIViewController {
         static let sectionHeaderHeight: CGFloat = 36
     }
 
-    private let tableView = UITableView(frame: .zero, style: .grouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let loadingView: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.hidesWhenStopped = true
@@ -74,10 +30,12 @@ final class UsersViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        view.backgroundColor = .systemBackground
+        self.title = viewModel.screenTitle
         layout()
         bindViewModel()
-        viewModel.viewDidLoad()
+        showLoadingSpinner(isLoading: true)
+        viewModel.loadData()
     }
 
     private func layout() {
@@ -115,13 +73,14 @@ final class UsersViewController: UIViewController {
     }
 
     private func refreshData() {
+        showLoadingSpinner(isLoading: true)
         viewModel.loadData()
         self.tableView.refreshControl?.endRefreshing()
     }
 
     private func setupTableView() {
         tableView.separatorStyle = .none
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
+        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: "UserCell")
 
         tableView.dataSource = self
         tableView.delegate = self
@@ -170,11 +129,16 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Dequeue a reusable default cell
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let user = viewModel.users[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath)
 
-        // Configure the cell text
-        cell.textLabel?.text = viewModel.users[indexPath.row].displayName
-        cell.detailTextLabel?.text = nil // optional
+        if let cell = cell as? UserTableViewCell {
+            cell.configure(
+                name: user.name,
+                reputation: "▲ \(user.reputation)",
+                profileImageURL: user.profileImageURL
+            )
+        }
 
         return cell
     }
