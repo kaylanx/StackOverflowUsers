@@ -9,12 +9,27 @@ final class UsersViewController: UIViewController {
         static let sectionHeaderHeight: CGFloat = 36
     }
 
-    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+
     private let loadingView: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.hidesWhenStopped = true
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
+    }()
+
+    private let errorView: UILabel = {
+        let errorLabel = UILabel()
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel.textAlignment = .center
+        errorLabel.textColor = .secondaryLabel
+        errorLabel.numberOfLines = 0
+        errorLabel.isHidden = true
+        return errorLabel
     }()
 
     private let viewModel: UsersViewModel
@@ -31,16 +46,27 @@ final class UsersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        self.title = viewModel.screenTitle
+        title = viewModel.screenTitle
         layout()
         bindViewModel()
-        showLoadingSpinner(isLoading: true)
-        viewModel.loadData()
+        refreshData()
     }
 
     private func layout() {
+        addErrorView()
         addTableView()
         addLoadingView()
+    }
+
+    private func addErrorView() {
+        view.addSubview(errorView)
+
+        NSLayoutConstraint.activate([
+            errorView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            errorView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            errorView.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+            errorView.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -20)
+        ])
     }
 
     private func addTableView() {
@@ -75,7 +101,7 @@ final class UsersViewController: UIViewController {
     private func refreshData() {
         showLoadingSpinner(isLoading: true)
         viewModel.loadData()
-        self.tableView.refreshControl?.endRefreshing()
+        tableView.refreshControl?.endRefreshing()
     }
 
     private func setupTableView() {
@@ -92,11 +118,12 @@ final class UsersViewController: UIViewController {
 
     private func bindViewModel() {
         viewModel.onUsersFetched = { [weak self] in
+            self?.hideErrorState()
             self?.showLoadingSpinner(isLoading: false)
             self?.tableView.reloadData()
         }
         viewModel.onError = { [weak self] errorTitle, errorMessage, buttonTitle in
-            self?.presentAlert(
+            self?.showErrorState(
                 title: errorTitle,
                 message: errorMessage,
                 buttonTitle: buttonTitle
@@ -105,15 +132,28 @@ final class UsersViewController: UIViewController {
     }
 
     private func showLoadingSpinner(isLoading: Bool) {
-        DispatchQueue.main.async { [weak self] in
-            if isLoading {
-                self?.loadingView.startAnimating()
-                self?.tableView.isHidden = true
-            } else {
-                self?.loadingView.stopAnimating()
-                self?.tableView.isHidden = false
-            }
+        if isLoading {
+            errorView.isHidden = true
+            loadingView.startAnimating()
+            tableView.isHidden = true
+        } else {
+            loadingView.stopAnimating()
         }
+    }
+
+    private func showErrorState(
+        title: String,
+        message: String,
+        buttonTitle: String
+    ) {
+        showLoadingSpinner(isLoading: false)
+        errorView.text = message
+        errorView.isHidden = false
+    }
+
+    private func hideErrorState() {
+        errorView.isHidden = true
+        tableView.isHidden = false
     }
 }
 
@@ -141,33 +181,5 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         return cell
-    }
-}
-
-// MARK: Alert Presenting
-extension UsersViewController {
-
-    private func presentAlert(
-        title: String,
-        message: String,
-        buttonTitle: String
-    ) {
-        let alertController = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert
-        )
-
-        alertController.addAction(
-            UIAlertAction(
-                title: buttonTitle,
-                style: .default
-            )
-        )
-        self.present(
-            alertController,
-            animated: true,
-            completion: nil
-        )
     }
 }
