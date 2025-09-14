@@ -170,7 +170,6 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Dequeue a reusable default cell
         let user = viewModel.users[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath)
 
