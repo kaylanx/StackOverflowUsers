@@ -27,7 +27,13 @@ final class AppCoordinator {
             baseURL: URL(string: "https://api.stackexchange.com/2.3")!
         )
 
-        let usersViewModel = UsersViewModel(userService: userService)
+        let followStore = FollowStorage(store: UserDefaults.standard)
+        let usersUseCase = DefaultUsersUseCase(
+            userService: userService,
+            followStore: followStore
+        )
+
+        let usersViewModel = UsersViewModel(usersUseCase: usersUseCase)
         let viewController = UsersViewController(viewModel: usersViewModel)
         let navigation = UINavigationController(rootViewController: viewController)
         window.rootViewController = navigation

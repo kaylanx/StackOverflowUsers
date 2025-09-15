@@ -11,6 +11,7 @@ final class UsersViewController: UIViewController {
 
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -119,6 +120,9 @@ final class UsersViewController: UIViewController {
             self?.showLoadingSpinner(isLoading: false)
             self?.tableView.reloadData()
         }
+        viewModel.onUserUpdated = { [weak self] index in
+            self?.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
+        }
         viewModel.onError = { [weak self] errorTitle, errorMessage, buttonTitle in
             self?.showErrorState(
                 title: errorTitle,
@@ -178,8 +182,11 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure(
                 name: user.name,
                 reputation: "▲ \(user.reputation)",
-                profileImageURL: user.profileImageURL
-            )
+                profileImageURL: user.profileImageURL,
+                buttonSystemImageName: user.followButtonImageName
+            ) { [weak self] in
+                self?.viewModel.toggleFollowing(of: user)
+            }
         }
 
         return cell

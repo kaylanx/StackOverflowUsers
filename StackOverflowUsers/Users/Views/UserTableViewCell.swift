@@ -32,13 +32,14 @@ final class UserTableViewCell: UITableViewCell {
 
     private let followButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Follow", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.configuration = .prominentGlass()
-        button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+
+    // MARK: - Callback
+    private var buttonAction: (() -> Void)?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -55,7 +56,9 @@ final class UserTableViewCell: UITableViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(reputationLabel)
         contentView.addSubview(followButton)
-        
+
+        followButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
+
         // Layout constraints
         NSLayoutConstraint.activate([
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -77,9 +80,21 @@ final class UserTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(name: String, reputation: String, profileImageURL: URL?) {
+    func configure(
+        name: String,
+        reputation: String,
+        profileImageURL: URL?,
+        buttonSystemImageName: String,
+        buttonAction: (() -> Void)?
+    ) {
         nameLabel.text = name
         reputationLabel.text = reputation
+        followButton.setImage(UIImage(systemName: buttonSystemImageName), for: .normal)
         profileImageView.load(url: profileImageURL)
+        self.buttonAction = buttonAction
+    }
+
+    @objc private func didTapButton() {
+        buttonAction?()
     }
 }

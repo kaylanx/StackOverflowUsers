@@ -5,7 +5,7 @@ final class FollowStorage: FollowStore {
 
     private let store: Store
 
-    init(store: Store = UserDefaults.standard) {
+    init(store: Store) {
         self.store = store
     }
 

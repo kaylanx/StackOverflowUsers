@@ -73,7 +73,7 @@ final class EmptyStateView: UIView {
 
         addSubview(vStack)
 
-        actionButton.addTarget(self, action: #selector(didTapRetry), for: .touchUpInside)
+        actionButton.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
             vStack.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -83,7 +83,7 @@ final class EmptyStateView: UIView {
         ])
     }
 
-    @objc private func didTapRetry() {
+    @objc private func didTapButton() {
         buttonAction?()
     }
 }

@@ -6,11 +6,13 @@ import Testing
 @MainActor
 struct UsersViewModelTests {
 
-    private let stubbedUserService = SpyUserService()
+    private let stubbedUsersUseCase = SpyUsersUseCase()
     private var usersViewModel: UsersViewModel!
 
     init() {
-        usersViewModel = UsersViewModel(userService: stubbedUserService)
+        usersViewModel = UsersViewModel(
+            usersUseCase: stubbedUsersUseCase
+        )
     }
 
     @Test("Screen title is correct")
@@ -23,8 +25,14 @@ struct UsersViewModelTests {
     @Test("When loadData is called then users are fetched successfully")
     func loadDataIsSuccessful() async throws {
 
-        stubbedUserService.stubbedUsers = [
-            User.mock
+        stubbedUsersUseCase.stubbedUsers = [
+            UserViewModel(
+                id: 1,
+                name: "displayName",
+                reputation: 44,
+                profileImageURL: URL(string: "https://example.com/image.png"),
+                followed: false
+            )
         ]
 
         var invokedOnUsersFetched = false
@@ -56,7 +64,7 @@ struct UsersViewModelTests {
     @Test("When loadData is called and error occurs then error message is present")
     func loadDataFails() async throws {
 
-        stubbedUserService.stubbedError = MockError.mock
+        stubbedUsersUseCase.stubbedError = MockError.mock
 
         var invokedOnUsersFetched = false
         usersViewModel.onUsersFetched = {
@@ -83,5 +91,33 @@ struct UsersViewModelTests {
         #expect(errorMessage == UsersViewModel.Strings.errorFetchingUsers)
         #expect(errorButtonText == UsersViewModel.Strings.errorMessageButtonTitle)
     }
-}
 
+    @Test("When toggleFollowing is called then use case is invoked and index is emitted")
+    func toggleFollowingCallsUseCaseAndEmitsIndex() async throws {
+
+        let user = UserViewModel(
+            id: 1,
+            name: "displayName",
+            reputation: 44,
+            profileImageURL: URL(string: "https://example.com/image.png"),
+            followed: false
+        )
+        stubbedUsersUseCase.stubbedUsers = [user]
+
+        var receivedIndex: Int?
+        usersViewModel.onUserUpdated = { index in
+            receivedIndex = index
+        }
+
+        usersViewModel.loadData()
+        await usersViewModel.loadDataTask?.value
+
+        usersViewModel.toggleFollowing(of: user)
+
+        #expect(stubbedUsersUseCase.invokedToggleFollowing)
+        #expect(
+            stubbedUsersUseCase.invokedToggleFollowingParameters?.user.id == user.id
+        )
+        #expect(receivedIndex == 0)
+    }
+}

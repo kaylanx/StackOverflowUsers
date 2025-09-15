@@ -14,15 +14,16 @@ final class UsersViewModel {
     private(set) var users: [UserViewModel] = []
 
     var onUsersFetched: (() -> Void)?
+    var onUserUpdated: ((_ userIndex: Int) -> Void)?
     var onError: ((_ title: String, _ errorMessage: String, _ buttonTitle: String) -> Void)?
 
     let screenTitle: String = Strings.screenTitle
 
-    private let userService: UserService
+    private let usersUseCase: UsersUseCase
     var loadDataTask: Task<Void, Never>?
 
-    init(userService: UserService) {
-        self.userService = userService
+    init(usersUseCase: UsersUseCase) {
+        self.usersUseCase = usersUseCase
     }
 
     func loadData() {
@@ -30,14 +31,7 @@ final class UsersViewModel {
         loadDataTask = Task {
             defer { loadDataTask = nil }
             do {
-                users = try await userService.fetchUsers().compactMap {
-                    UserViewModel(
-                        id: $0.userId,
-                        name: $0.displayName,
-                        reputation: $0.reputation,
-                        profileImageURL: URL(string: $0.profileImage)
-                    )
-                }
+                users = try await usersUseCase.users()
                 await MainActor.run {
                     onUsersFetched?()
                 }
@@ -52,6 +46,13 @@ final class UsersViewModel {
                     )
                 }
             }
+        }
+    }
+
+    func toggleFollowing(of user: UserViewModel) {
+        usersUseCase.toggleFollowing(of: user)
+        if let index = users.firstIndex(where: { $0.id == user.id }) {
+            onUserUpdated?(index)
         }
     }
 }

@@ -34,9 +34,9 @@
     },
     {
       "target" : {
-        "containerPath" : "container:Modules\/NetworkClient",
-        "identifier" : "NetworkClientTests",
-        "name" : "NetworkClientTests"
+        "containerPath" : "container:Modules\/Networking",
+        "identifier" : "NetworkingTests",
+        "name" : "NetworkingTests"
       }
     }
   ],
