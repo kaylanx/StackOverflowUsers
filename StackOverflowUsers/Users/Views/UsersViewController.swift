@@ -42,7 +42,6 @@ final class UsersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        title = viewModel.screenTitle
         layout()
         bindViewModel()
         refreshData()
@@ -113,6 +112,8 @@ final class UsersViewController: UIViewController {
     }
 
     private func bindViewModel() {
+        title = viewModel.screenTitle
+
         viewModel.onUsersFetched = { [weak self] in
             self?.hideErrorState()
             self?.showLoadingSpinner(isLoading: false)

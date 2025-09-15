@@ -59,7 +59,6 @@ final class EmptyStateView: UIView {
         self.buttonAction = buttonAction
     }
 
-
     // MARK: - Setup
     private func setupView() {
         isHidden = true
