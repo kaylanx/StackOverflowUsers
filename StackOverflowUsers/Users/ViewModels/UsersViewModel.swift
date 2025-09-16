@@ -52,6 +52,10 @@ final class UsersViewModel {
     func toggleFollowing(of user: UserViewModel) {
         usersUseCase.toggleFollowing(of: user)
         if let index = users.firstIndex(where: { $0.id == user.id }) {
+            var userToUpdate = users[index]
+            userToUpdate.followed = usersUseCase.following(user: user)
+            users[index] = userToUpdate
+            
             onUserUpdated?(index)
         }
     }

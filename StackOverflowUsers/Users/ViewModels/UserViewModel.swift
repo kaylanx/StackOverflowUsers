@@ -1,6 +1,6 @@
 import Foundation
 
-final class UserViewModel {
+struct UserViewModel {
 
     enum ImageNames {
         static let followButtonImageName = "person"

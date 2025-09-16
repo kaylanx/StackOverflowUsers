@@ -2,6 +2,7 @@ import Foundation
 import StackOverflowService
 
 final class DefaultUsersUseCase: UsersUseCase {
+
     private let userService: UserService
     private let followStore: FollowStore
 
@@ -14,12 +15,15 @@ final class DefaultUsersUseCase: UsersUseCase {
     }
 
     func toggleFollowing(of user: UserViewModel) {
-        user.followed.toggle()
         if followStore.isFollowed(userId: user.id) {
             followStore.unfollow(userId: user.id)
         } else {
             followStore.follow(userId: user.id)
         }
+    }
+
+    func following(user: UserViewModel) -> Bool {
+        followStore.isFollowed(userId: user.id)
     }
 
     func users() async throws -> [UserViewModel] {

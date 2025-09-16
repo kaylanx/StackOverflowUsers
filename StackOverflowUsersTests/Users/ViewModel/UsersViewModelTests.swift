@@ -119,5 +119,6 @@ struct UsersViewModelTests {
             stubbedUsersUseCase.invokedToggleFollowingParameters?.user.id == user.id
         )
         #expect(receivedIndex == 0)
+        #expect(stubbedUsersUseCase.invokedFollowing)
     }
 }

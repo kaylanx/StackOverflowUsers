@@ -27,4 +27,18 @@ final class SpyUsersUseCase: UsersUseCase {
         invokedToggleFollowingParameters = (user, ())
         invokedToggleFollowingParametersList.append((user, ()))
     }
+
+    var invokedFollowing = false
+    var invokedFollowingCount = 0
+    var invokedFollowingParameters: (user: UserViewModel, Void)?
+    var invokedFollowingParametersList = [(user: UserViewModel, Void)]()
+    var stubbedFollowingResult: Bool! = false
+
+    func following(user: UserViewModel) -> Bool {
+        invokedFollowing = true
+        invokedFollowingCount += 1
+        invokedFollowingParameters = (user, ())
+        invokedFollowingParametersList.append((user, ()))
+        return stubbedFollowingResult
+    }
 }
