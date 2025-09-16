@@ -97,11 +97,11 @@ pictures, reputation, and display names.
 
 ## 🧪 Testing
 
--   Uses **Swift Testing** (not XCTest) for modern test syntax.\
+-   Uses **Swift Testing** (not XCTest) for modern test syntax.
 -   Includes:
-    -   Unit tests for `UsersViewModel`.\
-    -   Unit tests for `DefaultUsersUseCase`.\
-    -   Tests for mapping network responses to models.\
+    -   Unit tests for `UsersViewModel`.
+    -   Unit tests for `DefaultUsersUseCase`.
+    -   Tests for mapping network responses to models.
     -   Tests for toggling follow state.
 
 Run tests in Xcode with **Product → Test** or `Cmd+U`.
