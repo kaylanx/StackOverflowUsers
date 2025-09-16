@@ -50,7 +50,12 @@ final class UserTableViewCell: UITableViewCell {
         super.init(coder: coder)
         setupUI()
     }
-    
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        profileImageView.image = nil
+    }
+
     private func setupUI() {
         contentView.addSubview(profileImageView)
         contentView.addSubview(nameLabel)

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5865C29C2E74E9BF00A94913 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 5865C29B2E74E9BF00A94913 /* Networking */; };
 		5865C29E2E74E9BF00A94913 /* StackOverflowService in Frameworks */ = {isa = PBXBuildFile; productRef = 5865C29D2E74E9BF00A94913 /* StackOverflowService */; };
+		586FF2DE2E78C8B000B0348E /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 586FF2DD2E78C8B000B0348E /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +33,7 @@
 		582CF7E52E71D6B20016C5BC /* StackOverflowUsers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StackOverflowUsers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		582CF7FB2E71D6B60016C5BC /* StackOverflowUsersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StackOverflowUsersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		582CF8052E71D6B60016C5BC /* StackOverflowUsersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StackOverflowUsersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		586FF2DD2E78C8B000B0348E /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -100,6 +102,7 @@
 		582CF7DC2E71D6B20016C5BC = {
 			isa = PBXGroup;
 			children = (
+				586FF2DD2E78C8B000B0348E /* README.md */,
 				582CF8542E71DD790016C5BC /* Modules */,
 				582CF7E72E71D6B20016C5BC /* StackOverflowUsers */,
 				582CF7FE2E71D6B60016C5BC /* StackOverflowUsersTests */,
@@ -253,6 +256,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				586FF2DE2E78C8B000B0348E /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,7 +26,7 @@ final class DefaultUsersUseCase: UsersUseCase {
         try await userService.fetchUsers().map {
             UserViewModel(
                 id: $0.userId,
-                name: $0.displayName,
+                name: $0.displayName.htmlDecoded,
                 reputation: $0.reputation,
                 profileImageURL: URL(string: $0.profileImage),
                 followed: followStore.isFollowed(userId: $0.userId)
