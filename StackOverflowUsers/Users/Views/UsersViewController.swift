@@ -96,8 +96,10 @@ final class UsersViewController: UIViewController {
 
     private func refreshData() {
         showLoadingSpinner(isLoading: true)
-        viewModel.loadData()
-        tableView.refreshControl?.endRefreshing()
+        Task { @MainActor in
+            await viewModel.loadData()
+            tableView.refreshControl?.endRefreshing()
+        }
     }
 
     private func setupTableView() {

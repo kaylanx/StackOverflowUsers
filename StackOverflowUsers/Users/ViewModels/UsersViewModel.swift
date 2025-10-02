@@ -20,32 +20,22 @@ final class UsersViewModel {
     let screenTitle: String = Strings.screenTitle
 
     private let usersUseCase: UsersUseCase
-    var loadDataTask: Task<Void, Never>?
 
     init(usersUseCase: UsersUseCase) {
         self.usersUseCase = usersUseCase
     }
 
-    func loadData() {
-        loadDataTask?.cancel()
-        loadDataTask = Task {
-            defer { loadDataTask = nil }
-            do {
-                users = try await usersUseCase.users()
-                await MainActor.run {
-                    onUsersFetched?()
-                }
-            } catch is CancellationError {
-                // Ignore task cancellations.
-            } catch {
-                await MainActor.run {
-                    onError?(
-                        Strings.errorMessageTitle,
-                        Strings.errorFetchingUsers,
-                        Strings.errorMessageButtonTitle
-                    )
-                }
-            }
+    @MainActor
+    func loadData() async {
+        do {
+            users = try await usersUseCase.users()
+            onUsersFetched?()
+        } catch {
+            onError?(
+                Strings.errorMessageTitle,
+                Strings.errorFetchingUsers,
+                Strings.errorMessageButtonTitle
+            )
         }
     }
 

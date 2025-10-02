@@ -45,8 +45,7 @@ struct UsersViewModelTests {
             invokedOnError = true
         }
 
-        usersViewModel.loadData()
-        await usersViewModel.loadDataTask?.value
+        await usersViewModel.loadData()
 
         #expect(invokedOnUsersFetched)
         #expect(invokedOnError == false)
@@ -80,8 +79,7 @@ struct UsersViewModelTests {
             errorButtonText = buttonText
         }
 
-        usersViewModel.loadData()
-        await usersViewModel.loadDataTask?.value
+        await usersViewModel.loadData()
 
         #expect(invokedOnUsersFetched == false)
         let users = usersViewModel.users
@@ -109,8 +107,7 @@ struct UsersViewModelTests {
             receivedIndex = index
         }
 
-        usersViewModel.loadData()
-        await usersViewModel.loadDataTask?.value
+        await usersViewModel.loadData()
 
         usersViewModel.toggleFollowing(of: user)
 
