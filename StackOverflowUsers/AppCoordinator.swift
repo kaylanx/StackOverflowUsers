@@ -9,6 +9,10 @@ import UIKit
 import Networking
 import StackOverflowService
 
+protocol UserSelectedDelegate: AnyObject {
+    func didSelectUser(_ user: UserViewModel)
+}
+
 final class AppCoordinator {
     private let window: UIWindow
 
@@ -33,10 +37,23 @@ final class AppCoordinator {
             followStore: followStore
         )
 
-        let usersViewModel = UsersViewModel(usersUseCase: usersUseCase)
+        let usersViewModel = UsersViewModel(usersUseCase: usersUseCase, userSelectedDelegate: self)
         let viewController = UsersViewController(viewModel: usersViewModel)
         let navigation = UINavigationController(rootViewController: viewController)
         window.rootViewController = navigation
         window.makeKeyAndVisible()
+    }
+}
+
+extension AppCoordinator: UserSelectedDelegate {
+    func didSelectUser(_ user: UserViewModel) {
+        print("User selected: \(user)")
+
+        let userDetailViewController = UserDetailsViewController(
+            viewModel: user
+        )
+
+        let navigationController = window.rootViewController as? UINavigationController
+        navigationController?.pushViewController(userDetailViewController, animated: true)
     }
 }

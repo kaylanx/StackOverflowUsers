@@ -103,6 +103,8 @@ struct DefaultUsersUseCaseTests {
             name: "Follow Me",
             reputation: 123,
             profileImageURL: URL(string: "https://example.com"),
+            location: "Manchester",
+            websiteURL: "https://websiteUrl.com",
             followed: false
         )
 
@@ -120,6 +122,8 @@ struct DefaultUsersUseCaseTests {
             name: "Unfollow Me",
             reputation: 456,
             profileImageURL: URL(string: "https://example.com"),
+            location: "Manchester",
+            websiteURL: "https://websiteUrl.com",
             followed: true
         )
 

@@ -11,7 +11,6 @@ final class UsersViewController: UIViewController {
 
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -45,6 +44,10 @@ final class UsersViewController: UIViewController {
         view.backgroundColor = .systemBackground
         layout()
         bindViewModel()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         refreshData()
     }
 
@@ -190,5 +193,10 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = viewModel.users[indexPath.row]
+        viewModel.tapped(user: user)
     }
 }

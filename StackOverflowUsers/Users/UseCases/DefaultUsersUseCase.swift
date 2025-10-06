@@ -33,8 +33,14 @@ final class DefaultUsersUseCase: UsersUseCase {
                 name: $0.displayName.htmlDecoded,
                 reputation: $0.reputation,
                 profileImageURL: URL(string: $0.profileImage),
+                location: $0.location,
+                websiteURL: $0.websiteUrl,
                 followed: followStore.isFollowed(userId: $0.userId)
-            )
+            ) { [weak self] user in
+                guard let self else { return false }
+                toggleFollowing(of: user)
+                return following(user: user)
+            }
         }
     }
 }

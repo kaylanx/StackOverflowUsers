@@ -22,8 +22,14 @@ final class UsersViewModel {
     private let usersUseCase: UsersUseCase
     var loadDataTask: Task<Void, Never>?
 
-    init(usersUseCase: UsersUseCase) {
+    private weak var userSelectedDelegate: UserSelectedDelegate?
+
+    init(
+        usersUseCase: UsersUseCase,
+        userSelectedDelegate: UserSelectedDelegate?
+    ) {
         self.usersUseCase = usersUseCase
+        self.userSelectedDelegate = userSelectedDelegate
     }
 
     func loadData() {
@@ -58,5 +64,9 @@ final class UsersViewModel {
             
             onUserUpdated?(index)
         }
+    }
+
+    func tapped(user: UserViewModel) {
+        userSelectedDelegate?.didSelectUser(user)
     }
 }

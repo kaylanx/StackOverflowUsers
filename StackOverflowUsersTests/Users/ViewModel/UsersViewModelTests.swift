@@ -7,11 +7,13 @@ import Testing
 struct UsersViewModelTests {
 
     private let stubbedUsersUseCase = SpyUsersUseCase()
+    private let stubbedUserSelectedDelegate = StubUserSelectedDelegate()
     private var usersViewModel: UsersViewModel!
 
     init() {
         usersViewModel = UsersViewModel(
-            usersUseCase: stubbedUsersUseCase
+            usersUseCase: stubbedUsersUseCase,
+            userSelectedDelegate: stubbedUserSelectedDelegate
         )
     }
 
@@ -31,6 +33,8 @@ struct UsersViewModelTests {
                 name: "displayName",
                 reputation: 44,
                 profileImageURL: URL(string: "https://example.com/image.png"),
+                location: "Manchester",
+                websiteURL: "https://websiteUrl.com",
                 followed: false
             )
         ]
@@ -56,6 +60,8 @@ struct UsersViewModelTests {
         #expect(firstUser.name == "displayName")
         #expect(firstUser.id == 1)
         #expect(firstUser.reputation == 44)
+        #expect(firstUser.location == "Manchester")
+        #expect(firstUser.websiteURL == "https://websiteUrl.com")
 
         let expectedUrl = try #require(URL(string: "https://example.com/image.png"))
         #expect(firstUser.profileImageURL == expectedUrl)
@@ -100,6 +106,8 @@ struct UsersViewModelTests {
             name: "displayName",
             reputation: 44,
             profileImageURL: URL(string: "https://example.com/image.png"),
+            location: "Manchester",
+            websiteURL: "https://websiteUrl.com",
             followed: false
         )
         stubbedUsersUseCase.stubbedUsers = [user]
@@ -120,5 +128,30 @@ struct UsersViewModelTests {
         )
         #expect(receivedIndex == 0)
         #expect(stubbedUsersUseCase.invokedFollowing)
+    }
+
+    @Test("When user is tapped, then user selected delegate is called")
+    func tappingUserCallsDelegate() async throws {
+        let user = UserViewModel(
+            id: 1,
+            name: "displayName",
+            reputation: 44,
+            profileImageURL: URL(string: "https://example.com/image.png"),
+            location: "Manchester",
+            websiteURL: "https://websiteUrl.com",
+            followed: false
+        )
+
+        #expect(stubbedUserSelectedDelegate.invokedWithUser == nil)
+        usersViewModel.tapped(user: user)
+        #expect(stubbedUserSelectedDelegate.invokedWithUser == user)
+    }
+}
+
+final class StubUserSelectedDelegate: UserSelectedDelegate {
+    var invokedWithUser: UserViewModel?
+
+    func didSelectUser(_ user: UserViewModel) {
+        invokedWithUser = user
     }
 }
